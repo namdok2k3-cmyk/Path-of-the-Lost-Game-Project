@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://de5dy312xkpi6"]
+
+[ext_resource type="Script" path="res://textbox/textbox.gd" id="1_ae277"]
+[ext_resource type="Texture2D" uid="uid://dwt6mmdyn07gn" path="res://textbox/assets/temptextbox.png" id="1_cwy0y"]
+[ext_resource type="FontFile" uid="uid://bu7e5uekno0qm" path="res://textbox/assets/C&C Red Alert [INET].ttf" id="3_gtnl6"]
+
+[node name="TextBox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ae277")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 224.0
+offset_bottom = 80.0
+texture = ExtResource("1_cwy0y")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 38.0
+offset_top = 32.0
+offset_right = 222.0
+offset_bottom = 78.0
+theme_override_fonts/normal_font = ExtResource("3_gtnl6")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+scroll_active = false
+visible_characters = 0
+visible_characters_behavior = 1
