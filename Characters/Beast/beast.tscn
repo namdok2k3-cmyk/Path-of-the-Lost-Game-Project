@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://di55po141hr2w"]
+
+[ext_resource type="Script" path="res://Characters/Beast/beast.gd" id="1_v7at8"]
+[ext_resource type="Texture2D" uid="uid://bmx2y8lwvmblp" path="res://Characters/Beast/beast.png" id="2_6pvsb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m1sla"]
+atlas = ExtResource("2_6pvsb")
+region = Rect2(0, 0, 370, 432)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u335k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m1sla")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbfio"]
+size = Vector2(261, 484)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r7q30"]
+size = Vector2(425, 476)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6pdmt"]
+size = Vector2(315, 477)
+
+[node name="Beast" type="CharacterBody2D"]
+light_mask = 2
+collision_layer = 130
+script = ExtResource("1_v7at8")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 0
+sprite_frames = SubResource("SpriteFrames_u335k")
+animation = &"new_animation"
+
+[node name="BodyCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-21.5, 3)
+shape = SubResource("RectangleShape2D_mbfio")
+disabled = true
+
+[node name="PlayerDeath" type="Area2D" parent="."]
+collision_layer = 131
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDeath"]
+position = Vector2(-215.5, 3)
+shape = SubResource("RectangleShape2D_r7q30")
+
+[node name="PlayerDamage" type="Area2D" parent="."]
+collision_layer = 32768
+collision_mask = 32768
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDamage"]
+position = Vector2(5, 3)
+shape = SubResource("RectangleShape2D_6pdmt")
+
+[node name="ThrowTimer" type="Timer" parent="."]
+
+[node name="SpawnLocation1" type="Node2D" parent="."]
+position = Vector2(138, -116)
+
+[node name="SpawnLocation2" type="Node2D" parent="."]
+position = Vector2(139, 119)
+
+[connection signal="area_entered" from="PlayerDeath" to="." method="_on_player_death_area_entered"]
+[connection signal="timeout" from="ThrowTimer" to="." method="_on_throw_timer_timeout"]

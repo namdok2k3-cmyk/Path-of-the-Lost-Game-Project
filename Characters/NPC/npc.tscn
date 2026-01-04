@@ -1,0 +1,66 @@
+[gd_scene load_steps=9 format=3 uid="uid://b5tdbdonya11i"]
+
+[ext_resource type="Script" path="res://Characters/NPC/npc.gd" id="1_32mlx"]
+[ext_resource type="Texture2D" uid="uid://f5o01bgqh56y" path="res://assets/sprite_sheets/Male_Old_Npc_16x16.png" id="2_647fr"]
+[ext_resource type="PackedScene" uid="uid://ckpwd0gipa5jr" path="res://misc/spark/spark.tscn" id="3_8up0d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4dpe7"]
+atlas = ExtResource("2_647fr")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehnpv"]
+atlas = ExtResource("2_647fr")
+region = Rect2(112, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aga6n"]
+atlas = ExtResource("2_647fr")
+region = Rect2(224, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g6oce"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dpe7")
+}],
+"loop": true,
+"name": &"left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehnpv")
+}],
+"loop": true,
+"name": &"middle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aga6n")
+}],
+"loop": true,
+"name": &"right",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yu6fh"]
+radius = 9.0
+height = 28.0
+
+[node name="NPC" type="CharacterBody2D"]
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("1_32mlx")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_g6oce")
+animation = &"middle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 3)
+shape = SubResource("CapsuleShape2D_yu6fh")
+
+[node name="Spark" parent="." instance=ExtResource("3_8up0d")]
+position = Vector2(0, 19)
+
+[connection signal="interacted" from="Spark" to="." method="_on_spark_interacted"]
