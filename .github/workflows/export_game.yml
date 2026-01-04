@@ -14,8 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Create Build Directory
-        run: mkdir -p build/web
+      # 1. Prepare the "public" folder (Vercel automatically serves this)
+      - name: Create Public Directory
+        run: mkdir -p public
 
       - name: Export Game
         uses: firebelley/godot-export@v5.2.1
@@ -26,8 +27,15 @@ jobs:
           archive_output: false
           export_preset_name: Web
 
-      - name: Commit Build to Main
+      # 2. Move the files into 'public' so Vercel finds them
+      - name: Move Build to Public
+        run: |
+          mv build/web/* public/ || true
+          rm -rf build
+
+      # 3. Force push the 'public' folder back to your repo
+      - name: Commit Game to Main
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Deploy Build to Main [skip ci]"
-          file_pattern: 'build/web/*'
+          commit_message: "Deploy Game to Public Folder [skip ci]"
+          file_pattern: 'public/*'
