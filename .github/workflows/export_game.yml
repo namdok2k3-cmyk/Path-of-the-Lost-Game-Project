@@ -26,7 +26,6 @@ jobs:
           archive_output: false
           export_preset_name: Web
 
-      # NEW STEP: This commits the playable game files back to your 'main' branch
       - name: Commit Build to Main
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
