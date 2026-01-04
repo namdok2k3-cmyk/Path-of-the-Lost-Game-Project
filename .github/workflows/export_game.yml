@@ -1,0 +1,31 @@
+name: Export Godot Game
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  export_web:
+    runs-on: ubuntu-latest
+    name: Export Web Game
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Export Game
+        # This action installs Godot 4 and exports your game to HTML5
+        uses: firebelley/godot-export@v5.2.1
+        with:
+          godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: false
+          # IMPORTANT: You must have an export preset named "Web" in your Godot project for this to work!
+          
+      - name: Deploy to GitHub Pages Branch
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # The branch the game will be saved to
+          folder: . # The folder where the export happened
