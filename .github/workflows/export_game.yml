@@ -14,16 +14,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 1. FORCE CREATE THE FOLDER (Fixes the "directory doesn't exist" error)
+      - name: Create Build Directory
+        run: mkdir -p build/web
+
       - name: Export Game
         uses: firebelley/godot-export@v5.2.1
         with:
+          # Use Godot 4.3 (Matches your preset)
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
           relative_project_path: ./
           archive_output: false
-          
+          export_preset_name: Web  # This MUST match the name in your export_presets.cfg
+
       - name: Deploy to GitHub Pages Branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: build/web  # <--- FIXED: Points to the specific build folder
+          folder: build/web
